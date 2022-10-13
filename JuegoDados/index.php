@@ -40,6 +40,10 @@
         return $random;
     }
 
+    function ganador()
+    {
+    }
+
     ?>
 
     <table style="border: 1px solid black;">
