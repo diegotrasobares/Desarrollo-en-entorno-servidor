@@ -1,6 +1,6 @@
 <html>
 <?php
-$numero=random_int(1,9);
+
 echo "Numero generado: ".$numero;
 echo "<br>";
 
