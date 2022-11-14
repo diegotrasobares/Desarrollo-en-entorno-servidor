@@ -90,10 +90,23 @@ function volcarDatoscsv($tvalores)
 // FICHERO DE JSON
 function cargarDatosjson()
 {
+    if (!is_file(FILEUSERJSON)) return false;
+
+    /* Cargar el contenido del archivo */
+    $contenido = file_get_contents(FILEUSERJSON);
+    if ($contenido === false) return false;
+
+    /* Convertir el contenido a un array */
+    $datos = json_decode($contenido, true);
+    if (is_null($datos)) return false;
+
+    return $datos;
 }
 
 function volcarDatosjson($tvalores)
 {
+    $tvaloresJson = json_encode($tvalores);
+    file_put_contents(FILEUSERJSON, $tvaloresJson);
 }
 
 
@@ -138,6 +151,13 @@ function mostrarDatos()
 // Función para limpiar todos elementos de un array
 function limpiarArrayEntrada(array &$entrada)
 {
-    // Sin implementar
-
+    foreach ($entrada as $var => $val) {
+        $entrada[$var] = limpiarLinea($val);
+    }
+    return $entrada;
+}
+function limpiarLinea($input)
+{
+    $cleanCadena = trim(htmlspecialchars($input, ENT_QUOTES, "UTF-8"));
+    return $cleanCadena;
 }
