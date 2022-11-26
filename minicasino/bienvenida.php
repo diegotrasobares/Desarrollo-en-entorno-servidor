@@ -7,7 +7,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>BIENVENIDO AL CASINO</h1>
+
+<h1>BIENVENIDO AL CASINO</h1>
     <p>Esta es su 1º visita.</p>
     <br>
     <p>Introduzca el dinero con el que va a jugar: </p>
@@ -15,6 +16,7 @@
     <input type="number" name="dinero">
     <input type="submit" value="Entrar">
     </form>
+    <p>VISITAS: <?= $_COOKIE['visitas']?></p>
     <?php 
     
 

@@ -1,5 +1,11 @@
 <?php
+
 session_start();
+if (isset($_COOKIE['visitas'])){
+    setcookie('visitas',$_COOKIE['visitas']+1,time()+3600*24);
+} else {
+    setcookie('visitas',1,time()+3600*24);
+}
 include_once "funciones.php";
 if (isset($_SESSION['dinero'])){
     
@@ -23,6 +29,7 @@ if (isset($_SESSION['dinero'])){
     
     } else {
         header("Location: despedida.php");
+        session_destroy();
     }
 }else {
     if (isset($_POST['dinero'])){
