@@ -23,11 +23,21 @@ function crudDetalles($id){
 }
 
 function crudDetallesSiguiente($id){
-    include_once "app/views/todo.php";
+    $id+=1;
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getCliente($id);
+    include_once "app/views/detalles.php";
 }
 
 function crudDetallesAnterior($id){
-   include_once "app/views/todo.php";
+    //comprobar que id es superior a 1
+    if ($id>1){
+        $id-=1;
+    }
+
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getCliente($id);
+    include_once "app/views/detalles.php";
 }
 
 
@@ -67,4 +77,11 @@ function crudPostModificar(){
     $db = AccesoDatos::getModelo();
     $db->modCliente($cli);
     
+}
+
+function crudOrdenar($campo){
+    $_SESSION['campo']=$campo;
+    $db = AccesoDatos::getModelo();
+    $tvalores = $db->getClientes($_SESSION['posini'],FPAG,$_SESSION['campo']);
+    include_once "app/views/list.php";
 }

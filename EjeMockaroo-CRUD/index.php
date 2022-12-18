@@ -2,6 +2,9 @@
 session_start();
 define ('FPAG',10); // Número de filas por página
 
+if (!isset($_SESSION['campo'])){
+    $_SESSION['campo'] = "id";
+}
 
 require_once 'app/helpers/util.php';
 require_once 'app/config/configDB.php';
@@ -28,7 +31,18 @@ $posAux = $_SESSION['posini'];
 
 ob_start(); // La salida se guarda en el bufer
 if ($_SERVER['REQUEST_METHOD'] == "GET" ){
-    
+   if (isset($_GET['sort'])){
+        switch ($_GET['sort']) {
+            case "name"       : crudOrdenar("first_name"); break;
+            case "email": crudOrdenar("email"); break;
+            case "gender": crudOrdenar("gender"); break;
+            case "ip"    : crudOrdenar("ip_address"); break;
+        }
+   } 
+   
+   
+   
+   
     // Proceso las ordenes de navegación
     if ( isset($_GET['nav'])) {
         switch ( $_GET['nav']) {
@@ -39,7 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] == "GET" ){
         }
         $_SESSION['posini'] = $posAux;
     }
-
+ 
+    
 
      // Proceso las ordenes de navegación en detalles
     if ( isset($_GET['nav-detalles']) && isset($_GET['id']) ) {
@@ -77,7 +92,7 @@ else {
 if ( ob_get_length() == 0){
     $db = AccesoDatos::getModelo();
     $posini = $_SESSION['posini'];
-    $tvalores = $db->getClientes($posini,FPAG);
+    $tvalores = $db->getClientes($posini,FPAG,$_SESSION['campo']);
     require_once "app/views/list.php";    
 }
 $contenido = ob_get_clean();

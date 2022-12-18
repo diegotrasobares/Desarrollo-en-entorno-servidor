@@ -5,9 +5,22 @@
 <br>
 
 <table>
-<tr><th>id</th><th>first_name</th><th>email</th>
-<th>gender</th><th>ip_address</th><th>teléfono</th></tr>
-<?php foreach ($tvalores as $valor): ?>
+<tr>
+<form method="GET">
+<th>id</th>
+    <th>first_name <button type="submit" name="sort" value="name">↓</button></th>
+    <th>email <button type="submit" name="sort" value="email">↓</button></th>
+    <th>gender <button type="submit" name="sort" value="gender">↓</button></th>
+    <th>ip_address <button type="submit" name="sort" value="ip">↓</button></th>
+    <th>teléfono </th>
+</form>
+</tr>
+<?php 
+//ordenar los datos segun el campo seleccionado
+
+
+
+foreach ($tvalores as $valor): ?>
 <tr>
 <td><?= $valor->id ?> </td>
 <td><?= $valor->first_name ?> </td>

@@ -54,11 +54,16 @@ class AccesoDatos {
     
 
     // SELECT Devuelvo la lista de Usuarios
-    public function getClientes ($primero,$cuantos):array {
+    public function getClientes ($primero,$cuantos,$campo="id"):array {
         $tuser = [];
         // Crea la sentencia preparada
        // echo "<h1> $primero : $cuantos  </h1>";
-        $stmt_usuarios  = $this->dbh->prepare("select * from Clientes limit $primero,$cuantos");
+       if ($campo){
+        $stmt_usuarios  = $this->dbh->prepare("select * from Clientes  ORDER BY $campo limit $primero,$cuantos");
+
+       } else{
+           $stmt_usuarios  = $this->dbh->prepare("select * from Clientes limit $primero,$cuantos");
+       }
         // Si falla termina el programa
         if ( $stmt_usuarios == false) die (__FILE__.':'.__LINE__.$this->dbh->error);
         // Ejecuto la sentencia
@@ -74,6 +79,28 @@ class AccesoDatos {
         }
         // Devuelvo el array de objetos
         return $tuser;
+    }
+    public function getClientesOrdenados($campo):array{
+            $tuser = [];
+            // Crea la sentencia preparada
+           // echo "<h1> $primero : $cuantos  </h1>";
+            $stmt_usuarios  = $this->dbh->prepare("select * from Clientes limit $primero,$cuantos ORDER BY $campo");
+            // Si falla termina el programa
+            if ( $stmt_usuarios == false) die (__FILE__.':'.__LINE__.$this->dbh->error);
+            // Ejecuto la sentencia
+            $stmt_usuarios->execute();
+            // Obtengo los resultados
+            $result = $stmt_usuarios->get_result();
+            // Si hay resultado correctos
+            if ( $result ){
+                // Obtengo cada fila de la respuesta como un objeto de tipo Usuario
+                while ( $user = $result->fetch_object('Cliente') ){
+                   $tuser[]= $user;
+                }
+            }
+            // Devuelvo el array de objetos
+            return $tuser;
+        
     }
     
       
