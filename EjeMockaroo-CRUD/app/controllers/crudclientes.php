@@ -85,3 +85,21 @@ function crudOrdenar($campo){
     $tvalores = $db->getClientes($_SESSION['posini'],FPAG,$_SESSION['campo']);
     include_once "app/views/list.php";
 }
+
+function mostrarBandera($ip){
+
+    $pais=file_get_contents('http://ip-api.com/json/'.$ip.'?fields=countryCode');
+    //coger solo el codigo del pais de $pais
+    $pais=substr($pais,16,2);
+    $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
+    if($ipdat->geoplugin_countryCode == null) {
+      echo "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Pirate_Flag.svg/2560px-Pirate_Flag.svg.png' width='20' alt='No hay bandera'>";
+    } else {
+        $codigo=$ipdat->geoplugin_countryCode;
+        echo "<img src='https://flagcdn.com/".strtolower($codigo).".svg' width='10' alt='Bandera pais'>";
+    }
+
+}
+    ?>
+
+
