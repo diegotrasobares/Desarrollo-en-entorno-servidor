@@ -213,7 +213,19 @@ class AccesoDatos {
         trigger_error('La clonación no permitida', E_USER_ERROR); 
     }
 
-    
+    public function checkEmail ($email)
+    {
+        $stmt_checkemail = $this->dbh->prepare("select * from Clientes where email =?");
+        if ( $stmt_checkemail == false) die ($this->dbh->error);
+        $stmt_checkemail->bind_param("s",$email);
+        $stmt_checkemail->execute();
+        $result = $stmt_checkemail->get_result();
+        if ( $result ){
+            $cli = $result->fetch_object('Cliente');
+            }
+        return $cli;
+    }
+     
 }
 
 

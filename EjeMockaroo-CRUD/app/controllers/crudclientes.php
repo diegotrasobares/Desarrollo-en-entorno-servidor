@@ -59,7 +59,28 @@ function crudPostAlta(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
-    $db->addCliente($cli);
+    $acceso=true;
+    if ($db->checkEmail($cli->email)){
+        echo "El email ya existe, no se puede dar de alta <br>";
+        $acceso=false;
+    }
+        else if (!validarIP($cli->ip_address)){
+            echo "La ip no es correcta, no se puede dar de alta <br>";
+            $acceso=false;
+
+            
+        } 
+        else if (!validarTelefono($cli->telefono)){
+            echo "El telefono no es correcto, no se puede dar de alta <br>";
+            $acceso=false;
+        }
+    if ($acceso) {
+        $db->addCliente($cli);
+    } else {
+        $orden= "Nuevo";
+        include_once "app/views/formulario.php";
+    }
+
     
 }
 
@@ -75,7 +96,24 @@ function crudPostModificar(){
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
-    $db->modCliente($cli);
+    $acceso=true;
+
+    if (!validarIP($cli->ip_address)){
+            echo "La ip no es correcta, no se puede dar de alta <br>";
+            $acceso=false;
+
+            
+        } 
+        else if (!validarTelefono($cli->telefono)){
+            echo "El telefono no es correcto, no se puede dar de alta <br>";
+            $acceso=false;
+        }
+    if ($acceso) {
+        $db->modCliente($cli);
+    } else {
+        $orden= "Nuevo";
+        include_once "app/views/formulario.php";
+    }
     
 }
 
@@ -93,13 +131,46 @@ function mostrarBandera($ip){
     $pais=substr($pais,16,2);
     $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
     if($ipdat->geoplugin_countryCode == null) {
-      echo "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Pirate_Flag.svg/2560px-Pirate_Flag.svg.png' width='20' alt='No hay bandera'>";
+        echo "<img src='https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Pirate_Flag.svg/2560px-Pirate_Flag.svg.png' width='20' alt='No hay bandera'>";
     } else {
         $codigo=$ipdat->geoplugin_countryCode;
         echo "<img src='https://flagcdn.com/".strtolower($codigo).".svg' width='10' alt='Bandera pais'>";
     }
+    
+}
+function validarIP($ip){
+    
+    $ip = explode(".", $ip);
+    $validada=true;
+
+   if (count($ip) < 3) {
+    $validada=false;
 
 }
-    ?>
+foreach ($ip as $octeto) {
+    strval($octeto);
+    if (!is_numeric($octeto)) {
+        $validada=false;
+
+    }
+    if ($octeto < 0 || $octeto > 255) {
+        $validada=false;
+
+    }
+}
+    return $validada;    
+}
+function validarTelefono($telefono){
+    $validada=true;
+    
+    $formato = "/^[0-9]{3}-[0-9]{3}-[0-9]{3,4}$/";
+    
+
+    if (!preg_match($formato, $telefono)) {
+        $validada=false;
+    }
+    return $validada;   
+}
+?>
 
 
