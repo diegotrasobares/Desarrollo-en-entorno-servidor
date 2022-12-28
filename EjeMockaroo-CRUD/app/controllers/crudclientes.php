@@ -138,27 +138,26 @@ function mostrarBandera($ip){
     }
     
 }
-function validarIP($ip){
-    
-    $ip = explode(".", $ip);
-    $validada=true;
+function validarIP($ip){ 
+        $ip = explode(".", $ip);
+        $validada=true;
 
-   if (count($ip) < 3) {
-    $validada=false;
-
-}
-foreach ($ip as $octeto) {
-    strval($octeto);
-    if (!is_numeric($octeto)) {
+    if (count($ip) < 3) {
         $validada=false;
 
     }
-    if ($octeto < 0 || $octeto > 255) {
-        $validada=false;
+    foreach ($ip as $octeto) {
+        strval($octeto);
+        if (!is_numeric($octeto)) {
+            $validada=false;
 
+        }
+        if ($octeto < 0 || $octeto > 255) {
+            $validada=false;
+
+        }
     }
-}
-    return $validada;    
+        return $validada;    
 }
 function validarTelefono($telefono){
     $validada=true;
@@ -170,6 +169,20 @@ function validarTelefono($telefono){
         $validada=false;
     }
     return $validada;   
+}
+
+function comprobarFotoPerfil($id){
+    $aux=0;
+
+    $aux=str_pad($aux, 7, "0", STR_PAD_LEFT);
+    $aux=substr($aux, 0, 8-strlen($id)).$id;
+    $fichero2="app/uploads/".$aux.".jpg";
+    $fichero="uploads/".$aux.".jpg";
+    if (file_exists($fichero)) {
+        return "<img src='$fichero' width='20' alt='Foto almacenada'>";
+    }
+    return "<img src='https://robohash.org/$id' width='20' alt='Foto perfil robot'>";
+    
 }
 ?>
 
