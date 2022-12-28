@@ -177,7 +177,7 @@ function comprobarFotoPerfil($id){
     $aux=str_pad($aux, 7, "0", STR_PAD_LEFT);
     $aux=substr($aux, 0, 8-strlen($id)).$id;
     $fichero2="app/uploads/".$aux.".jpg";
-    $fichero="uploads/".$aux.".jpg";
+    $fichero="app/uploads/".$aux.".jpg";
     if (file_exists($fichero)) {
         return "<img src='$fichero' width='20' alt='Foto almacenada'>";
     }
