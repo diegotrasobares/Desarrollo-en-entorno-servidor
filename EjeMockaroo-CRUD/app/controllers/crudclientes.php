@@ -58,6 +58,7 @@ function crudPostAlta(){
     $cli->gender        =$_POST['gender'];
     $cli->ip_address    =$_POST['ip_address'];
     $cli->telefono      =$_POST['telefono'];
+
     $db = AccesoDatos::getModelo();
     $acceso=true;
     if ($db->checkEmail($cli->email)){
@@ -76,6 +77,7 @@ function crudPostAlta(){
         }
     if ($acceso) {
         $db->addCliente($cli);
+        cambiarFotoPerfil($cli->id);
     } else {
         $orden= "Nuevo";
         include_once "app/views/formulario.php";
@@ -87,7 +89,6 @@ function crudPostAlta(){
 function crudPostModificar(){
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
     $cli = new Cliente();
-
     $cli->id            =$_POST['id'];
     $cli->first_name    =$_POST['first_name'];
     $cli->last_name     =$_POST['last_name'];
@@ -97,7 +98,6 @@ function crudPostModificar(){
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
     $acceso=true;
-
     if (!validarIP($cli->ip_address)){
             echo "La ip no es correcta, no se puede dar de alta <br>";
             $acceso=false;
@@ -109,6 +109,7 @@ function crudPostModificar(){
             $acceso=false;
         }
     if ($acceso) {
+        cambiarFotoPerfil($cli->id);
         $db->modCliente($cli);
     } else {
         $orden= "Nuevo";
@@ -163,27 +164,52 @@ function validarTelefono($telefono){
     $validada=true;
     
     $formato = "/^[0-9]{3}-[0-9]{3}-[0-9]{3,4}$/";
-    
 
     if (!preg_match($formato, $telefono)) {
         $validada=false;
     }
     return $validada;   
 }
-
-function comprobarFotoPerfil($id){
+function buscarFotoPerfil($id){
     $aux=0;
-
     $aux=str_pad($aux, 7, "0", STR_PAD_LEFT);
     $aux=substr($aux, 0, 8-strlen($id)).$id;
-    $fichero2="app/uploads/".$aux.".jpg";
-    $fichero="app/uploads/".$aux.".jpg";
+    $fichero=$aux.".jpg";
+    return $fichero;
+}
+
+function comprobarFotoPerfil($id){
+    $fichero=buscarFotoPerfil($id);
+    $fichero="app/uploads/".$fichero;
     if (file_exists($fichero)) {
         return "<img src='$fichero' width='20' alt='Foto almacenada'>";
     }
     return "<img src='https://robohash.org/$id' width='20' alt='Foto perfil robot'>";
-    
 }
+function cambiarFotoPerfil($id){
+    $fichero="app/uploads/".buscarFotoPerfil($id);
+    $nombre_imagen=$_FILES['foto']['name'];
+       $tipo_imagen=$_FILES['foto']['type'];
+        $tam_imagen=$_FILES['foto']['size'];
+        move_uploaded_file($_FILES['foto']['tmp_name'],$fichero);
+   }
+
+   function comprobarLogin($usuario,$password){
+            $md5password= md5($password) ;
+            $db = AccesoDatos::getModelo();
+            if ($db->checkLogin($usuario,$md5password)){
+                echo "Usuario y contraseña correctos";
+                return true;
+            } else {
+                echo "Usuario y contraseña INCORRECTOS";
+                return false;
+            }
+        }
+    
+
+   
+
+
 ?>
 
 

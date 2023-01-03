@@ -1,7 +1,9 @@
 <hr>
 <button onclick="location.href='./'" > Volver </button>
 <br><br>
-<?=mostrarBandera($cli->ip_address)?>
+<?php
+    mostrarBandera($cli->ip_address);
+?>
 <table>
 
 <tr><td>id:</td> 
@@ -30,6 +32,7 @@
  
 <form>
 <input type="hidden"  name="id" value="<?=$cli->id ?>">
+<button type="submit" name="nav-detalles" value="Generar PDF"><a href="app/librerias/plantillaPDF.php">Generar PDF</a></button>
 <button type="submit" name="nav-detalles" value="Anterior"> Anterior << </button>
 <button type="submit" name="nav-detalles" value="Siguiente"> Siguiente >> </button>
 </form> 

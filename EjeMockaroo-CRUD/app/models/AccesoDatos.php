@@ -225,6 +225,17 @@ class AccesoDatos {
             }
         return $cli;
     }
+    public function checkLogin($login,$password){
+        $stmt_checklogin = $this->dbh->prepare("select * from login where login =? and password =?");
+        if ( $stmt_checklogin == false) die ($this->dbh->error);
+        $stmt_checklogin->bind_param("ss",$login,$password);
+        $stmt_checklogin->execute();
+        $result = $stmt_checklogin->get_result();
+         if ((mysqli_num_rows($result)>0) ){
+            return true;
+            }
+        return false;
+    }
      
 }
 
