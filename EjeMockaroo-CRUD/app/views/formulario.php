@@ -1,6 +1,6 @@
 
 <hr>
-<form   method="POST">
+<form enctype="multipart/form-data" method="post"  action="">
 <table>
  <tr><td>id:</td> 
  <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly  ></td></tr>
@@ -23,8 +23,13 @@
  <tr><td>telefono:</td> 
  <td><input type="tel" name="telefono" value="<?=$cli->telefono ?>"  ></td></tr>
  </tr>
- </table>
- <input type="submit"	 name="orden" 	value="<?=$orden?>">
- <input type="submit"	 name="orden" 	value="Volver">
+ <tr>
+<label for="foto">Cambiar foto de perfil:</label>
+<input type="file" name="foto">
+</tr>
+</table>
+<input type="submit"	 name="orden" 	value="<?=$orden?>">
+<input type="submit"	 name="orden" 	value="Volver">
+<input type="submit"	 name="pdf" 	value="Generar PDF">
 </form> 
 
