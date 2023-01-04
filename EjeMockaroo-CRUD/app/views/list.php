@@ -1,7 +1,10 @@
 
+<?php 
+if ($_SESSION['rol']==1){ ?>
 <form>
 <button type="submit" name="orden" value="Nuevo"> Cliente Nuevo </button><br>
 </form>
+<?php } ?>
 <br>
 
 <table>
@@ -28,8 +31,12 @@ foreach ($tvalores as $valor): ?>
 <td><?= $valor->gender ?> </td>
 <td><?= $valor->ip_address ?> </td>
 <td><?= $valor->telefono ?> </td>
+<?php 
+if ($_SESSION['rol']){
+?>
 <td><a href="#" onclick="confirmarBorrar('<?=$valor->first_name?>',<?=$valor->id?>);" >Borrar</a></td>
 <td><a href="?orden=Modificar&id=<?=$valor->id?>">Modificar</a></td>
+<?php } ?>
 <td><a href="?orden=Detalles&id=<?=$valor->id?>" >Detalles</a></td>
 
 <tr>

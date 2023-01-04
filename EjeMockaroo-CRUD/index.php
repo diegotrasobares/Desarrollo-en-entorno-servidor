@@ -127,6 +127,7 @@ if ($_SESSION['intentos']<3 && $_SESSION['login']==true){
     
     
 }
+
 $contenido = ob_get_clean();
 
 // Muestro la página principal con el contenido generado

@@ -193,12 +193,13 @@ function cambiarFotoPerfil($id){
         $tam_imagen=$_FILES['foto']['size'];
         move_uploaded_file($_FILES['foto']['tmp_name'],$fichero);
    }
-
+//COMPRUEBO LOGIN Y EL ROL QUE TIENE
    function comprobarLogin($usuario,$password){
             $md5password= md5($password) ;
             $db = AccesoDatos::getModelo();
             if ($db->checkLogin($usuario,$md5password)){
                 echo "Usuario y contraseña correctos";
+                comprobarRol($usuario);
                 return true;
             } else {
                 echo "Usuario y contraseña INCORRECTOS";
@@ -207,6 +208,16 @@ function cambiarFotoPerfil($id){
         }
     
 
+   function comprobarRol($usuario){
+            $db = AccesoDatos::getModelo();
+            $rol=$db->getRol($usuario);
+            if ($rol==1){
+                $_SESSION['rol']=1;
+            } else {
+                $_SESSION['rol']=0;
+            }
+            
+        }
    
 
 

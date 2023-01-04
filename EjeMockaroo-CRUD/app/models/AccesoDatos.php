@@ -236,7 +236,15 @@ class AccesoDatos {
             }
         return false;
     }
-     
+     public function getRol($login){
+        $stmt_getrol = $this->dbh->prepare("select rol from login where login =?");
+        if ( $stmt_getrol == false) die ($this->dbh->error);
+        $stmt_getrol->bind_param("s",$login);
+        $stmt_getrol->execute();
+        $result = $stmt_getrol->get_result();
+        $row=mysqli_fetch_array($result);
+        return $row['rol'];
+     }
 }
 
 
