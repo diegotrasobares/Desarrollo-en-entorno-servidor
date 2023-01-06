@@ -68,7 +68,7 @@ if ($_SESSION['intentos']<3 && $_SESSION['login']==true){
           switch ( $_GET['nav-detalles']) {
              case "Siguiente": crudDetallesSiguiente($_GET['id']); break;
              case "Anterior" : crudDetallesAnterior($_GET['id']); break;
-             case "Generar PDF": include("app/views/plantillaPDF.php"); break;
+             case "Generar PDF": generarPDF($_GET['id']); break;
          }
           }
      

@@ -23,20 +23,14 @@ function crudDetalles($id){
 }
 
 function crudDetallesSiguiente($id){
-    $id+=1;
     $db = AccesoDatos::getModelo();
-    $cli = $db->getCliente($id);
+    $cli = $db->getClienteSiguiente($id);
     include_once "app/views/detalles.php";
 }
 
 function crudDetallesAnterior($id){
-    //comprobar que id es superior a 1
-    if ($id>1){
-        $id-=1;
-    }
-
     $db = AccesoDatos::getModelo();
-    $cli = $db->getCliente($id);
+    $cli = $db->getClienteAnterior($id);
     include_once "app/views/detalles.php";
 }
 
@@ -124,11 +118,16 @@ function crudOrdenar($campo){
     $tvalores = $db->getClientes($_SESSION['posini'],FPAG,$_SESSION['campo']);
     include_once "app/views/list.php";
 }
+function generarPDF($id) {
+    $db = AccesoDatos::getModelo();
+    $cli = $db->getCliente($id);
+    include_once "app/views/plantillaPDF.php";
+}
 
 function mostrarBandera($ip){
 
     $pais=file_get_contents('http://ip-api.com/json/'.$ip.'?fields=countryCode');
-    //coger solo el codigo del pais de $pais
+    
     $pais=substr($pais,16,2);
     $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
     if($ipdat->geoplugin_countryCode == null) {
@@ -138,6 +137,17 @@ function mostrarBandera($ip){
         echo "<img src='https://flagcdn.com/".strtolower($codigo).".svg' width='10' alt='Bandera pais'>";
     }
     
+}
+
+function obtenerLatLon($ip){
+    $ipdat = @json_decode(file_get_contents("http://www.geoplugin.net/json.gp?ip=" . $ip));
+    if($ipdat->geoplugin_latitude == null) {
+        echo "No hay latitud";
+    } else {
+        $lat=$ipdat->geoplugin_latitude;
+        $lon=$ipdat->geoplugin_longitude;
+        return "lat:$lat,lon:$lon";
+        }
 }
 function validarIP($ip){ 
         $ip = explode(".", $ip);
@@ -193,7 +203,7 @@ function cambiarFotoPerfil($id){
         $tam_imagen=$_FILES['foto']['size'];
         move_uploaded_file($_FILES['foto']['tmp_name'],$fichero);
    }
-//COMPRUEBO LOGIN Y EL ROL QUE TIENE
+//COMPRUEBO LOGIN
    function comprobarLogin($usuario,$password){
             $md5password= md5($password) ;
             $db = AccesoDatos::getModelo();

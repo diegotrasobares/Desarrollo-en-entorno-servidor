@@ -10,7 +10,10 @@
 <div id="container" style="width: 950px;">
 <div id="header">
 <h1>MIS CLIENTES CRUD versión 1.1</h1>
-<h2>ROL: <?=$_SESSION['rol']?></h2>
+<?php 
+    if (isset($_SESSION['rol'])){
+        print "<h2>ROL:".$_SESSION['rol']."</h2>";
+        } ?>
 </div>
 <div id="content">
 <?= $contenido ?>

@@ -29,10 +29,9 @@
  <td><input type="tel" name="telefono" value="<?=$cli->telefono ?>" readonly ></td></tr>
  </tr>
  </table>
- 
 <form>
 <input type="hidden"  name="id" value="<?=$cli->id ?>">
-<button type="submit" name="nav-detalles" value="Generar PDF"><a href="app/librerias/plantillaPDF.php">Generar PDF</a></button>
+<button type="submit" name="nav-detalles" value="Generar PDF">Generar PDF</button>
 <button type="submit" name="nav-detalles" value="Anterior"> Anterior << </button>
 <button type="submit" name="nav-detalles" value="Siguiente"> Siguiente >> </button>
 </form> 

@@ -21,6 +21,5 @@
             </td>
         </tr> 
     </table>
-    <p><?= print "INTENTOS:".$_SESSION['intentos']?></p>
 </form>
 </html>
