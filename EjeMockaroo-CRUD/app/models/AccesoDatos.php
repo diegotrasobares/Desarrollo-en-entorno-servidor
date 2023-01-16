@@ -237,6 +237,22 @@ class AccesoDatos
         trigger_error('La clonación no permitida', E_USER_ERROR);
     }
 
+    public function getLastId(){
+        $cli = false;
+
+        $stmt_usuario   = $this->dbh->prepare("SELECT AUTO_INCREMENT AS id FROM information_schema.Tables WHERE TABLE_SCHEMA='clientes' AND table_name='clientes'");
+        if ($stmt_usuario == false) die($this->dbh->error);
+
+        // Enlazo $login con el primer ? 
+        $stmt_usuario->execute();
+        $result = $stmt_usuario->get_result();
+        if ($result) {
+            $cli = $result->fetch_object();
+        }
+
+        return $cli->id;
+    }
+
     public function checkEmail($email)
     {
         $stmt_checkemail = $this->dbh->prepare("select * from Clientes where email =?");

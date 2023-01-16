@@ -2,9 +2,16 @@
 <hr>
 <form enctype="multipart/form-data" method="post"  action="">
 <table>
- <tr><td>id:</td> 
- <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly  ></td></tr>
- </tr>
+<tr><td>id:</td> 
+<?php      ?>
+    <?php if($orden=="Modificar"){?>
+        <td><input type="number" name="id" value="<?=$cli->id ?>"  readonly > </td>
+        <td rowspan="7"><img src="<?=comprobarFotoPerfil($cli->id) ?>" alt=""></td>
+        <?php } else {
+            ?>
+             <td><input type="number" name="id" value="<?=checkLastId() ?>"  readonly > </td>
+        <?php } ?>
+</tr>
  <tr><td>first_name:</td> 
  <td><input type="text" name="first_name" value="<?=$cli->first_name ?>" autofocus  ></td></tr>
  </tr>

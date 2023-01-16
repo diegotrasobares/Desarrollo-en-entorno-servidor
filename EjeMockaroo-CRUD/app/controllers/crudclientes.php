@@ -192,9 +192,9 @@ function comprobarFotoPerfil($id){
     $fichero=buscarFotoPerfil($id);
     $fichero="app/uploads/".$fichero;
     if (file_exists($fichero)) {
-        return "<img src='$fichero' width='20' alt='Foto almacenada'>";
+        return "$fichero";
     }
-    return "<img src='https://robohash.org/$id' width='20' alt='Foto perfil robot'>";
+    return 'https://robohash.org/'.$id;
 }
 function cambiarFotoPerfil($id){
     $fichero="app/uploads/".buscarFotoPerfil($id);
@@ -217,7 +217,11 @@ function cambiarFotoPerfil($id){
             }
         }
     
-
+    function checkLastId(){
+        $db = AccesoDatos::getModelo();
+        $id=$db->getLastId();
+       return $id;
+    }
    function comprobarRol($usuario){
             $db = AccesoDatos::getModelo();
             $rol=$db->getRol($usuario);
