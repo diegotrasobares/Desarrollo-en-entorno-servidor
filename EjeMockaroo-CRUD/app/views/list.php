@@ -18,10 +18,6 @@ if ($_SESSION['rol'] == 1) { ?>
         </form>
     </tr>
     <?php
-    //ordenar los datos segun el campo seleccionado
-
-
-
     foreach ($tvalores as $valor) : ?>
         <tr>
             <td><?= $valor->id ?> </td>

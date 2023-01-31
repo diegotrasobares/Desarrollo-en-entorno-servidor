@@ -267,7 +267,7 @@ class AccesoDatos
     }
     public function checkLogin($login, $password)
     {
-        return true;
+       
         $stmt_checklogin = $this->dbh->prepare("select * from login where login =? and password =?");
         if ($stmt_checklogin == false) die($this->dbh->error);
         $stmt_checklogin->bind_param("ss", $login, $password);
@@ -280,7 +280,7 @@ class AccesoDatos
     }
     public function getRol($login)
     {
-        return 1;
+        
         $stmt_getrol = $this->dbh->prepare("select rol from login where login =?");
         if ($stmt_getrol == false) die($this->dbh->error);
         $stmt_getrol->bind_param("s", $login);

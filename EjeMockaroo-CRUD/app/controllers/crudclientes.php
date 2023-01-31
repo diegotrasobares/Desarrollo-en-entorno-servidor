@@ -82,6 +82,8 @@ function crudPostAlta(){
 
 function crudPostModificar(){
     limpiarArrayEntrada($_POST); //Evito la posible inyección de código
+    
+    
     $cli = new Cliente();
     $cli->id            =$_POST['id'];
     $cli->first_name    =$_POST['first_name'];
@@ -92,21 +94,26 @@ function crudPostModificar(){
     $cli->telefono      =$_POST['telefono'];
     $db = AccesoDatos::getModelo();
     $acceso=true;
+
     if (!validarIP($cli->ip_address)){
             echo "La ip no es correcta, no se puede dar de alta <br>";
             $acceso=false;
-
-            
         } 
         else if (!validarTelefono($cli->telefono)){
             echo "El telefono no es correcto, no se puede dar de alta <br>";
+            $acceso=false;
+        }
+        $cliente=$db->checkEmail($cli->email);
+        if( ($cliente) && $cliente->id != $cli->id ){
+            echo "El email ya existe, no se puede dar de alta <br>";
+            var_dump ($db->checkEmail($cli->email));
             $acceso=false;
         }
     if ($acceso) {
         cambiarFotoPerfil($cli->id);
         $db->modCliente($cli);
     } else {
-        $orden= "Nuevo";
+        $orden= "Modificar";
         include_once "app/views/formulario.php";
     }
     
